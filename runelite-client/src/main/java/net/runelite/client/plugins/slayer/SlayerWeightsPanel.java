@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2018, Kruithne <kruithne@gmail.com>
+ * Copyright (c) 2018, Psikoi <https://github.com/psikoi>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,52 +24,28 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.runelite.client.plugins.slayerweights;
+package net.runelite.client.plugins.slayer;
 
 import net.runelite.api.Client;
-import net.runelite.client.plugins.Plugin;
-import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.ui.ClientToolbar;
-import net.runelite.client.ui.NavigationButton;
-import net.runelite.client.util.ImageUtil;
+import net.runelite.client.game.ItemManager;
+import net.runelite.client.game.SkillIconManager;
+import net.runelite.client.game.SpriteManager;
 
-import javax.inject.Inject;
-import java.awt.image.BufferedImage;
+import net.runelite.client.ui.PluginPanel;
 
-@PluginDescriptor(
-	name = "Slayer Weights",
-	description = "Enable the Slayer Weights panel",
-	tags = {"panel", "skilling"}
-)
-public class SlayerWeightsPlugin extends Plugin
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+
+class SlayerWeightsPanel extends PluginPanel
 {
-	@Inject
-	private Client client;
-
-	@Inject
-	private ClientToolbar clientToolbar;
-
-	private NavigationButton uiNavigationButton;
-
-	@Override
-	protected void startUp() throws Exception
+	SlayerWeightsPanel(Client client)
 	{
-		final BufferedImage icon = ImageUtil.getResourceStreamFromClass(getClass(), "slay.png");
-		final SlayerWeightsPanel uiPanel = new SlayerWeightsPanel( client);
+		super();
+		setBorder(new EmptyBorder(10, 10, 10, 10));
+		setLayout(new GridBagLayout());
 
-		uiNavigationButton = NavigationButton.builder()
-			.tooltip("Slayer Task Weights")
-			.icon(icon)
-			.priority(6)
-			.panel(uiPanel)
-			.build();
-
-		clientToolbar.addNavigation(uiNavigationButton);
 	}
 
-	@Override
-	protected void shutDown() throws Exception
-	{
-		clientToolbar.removeNavigation(uiNavigationButton);
-	}
+
+
 }
