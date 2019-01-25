@@ -27,25 +27,64 @@
 package net.runelite.client.plugins.slayer;
 
 import net.runelite.api.Client;
-import net.runelite.client.game.ItemManager;
-import net.runelite.client.game.SkillIconManager;
-import net.runelite.client.game.SpriteManager;
-
+import net.runelite.client.plugins.hiscore.HiscorePanel;
+import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
+import net.runelite.client.ui.components.IconTextField;
+import net.runelite.client.ui.components.materialtabs.MaterialTab;
+import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
 
+import javax.inject.Inject;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-class SlayerWeightsPanel extends PluginPanel
+class SlayerPanel extends PluginPanel
 {
-	SlayerWeightsPanel(Client client)
+
+	private final IconTextField searchBar;
+	private final MaterialTabGroup tabGroup;
+
+
+	@Inject
+	SlayerPanel(Client client)
 	{
 		super();
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		setLayout(new GridBagLayout());
+		setBorder(new EmptyBorder(18, 10, 0, 10));
+		setBackground(ColorScheme.DARK_GRAY_COLOR);
+		setLayout(new GridBagLayout());
+
+		// Expand sub items to fit width of panel, align to top of panel
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 0;
+		c.insets = new Insets(0, 0, 10, 0);
+
+		searchBar = new IconTextField();
+		searchBar.setIcon(IconTextField.Icon.SEARCH);
+		searchBar.setPreferredSize(new Dimension(PluginPanel.PANEL_WIDTH - 20, 30));
+		searchBar.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		searchBar.setHoverBackgroundColor(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		searchBar.setMinimumSize(new Dimension(0, 30));
+		searchBar.setToolTipText("Name of monster you want a task for");
+		add(searchBar, c);
+		c.gridy++;
+		tabGroup = new MaterialTabGroup();
+		tabGroup.setLayout(new GridLayout(1, 5, 7, 7));
+
+		for (SlayerMaster master : SlayerMaster.values())
+		{
+			MaterialTab tab = new MaterialTab(new ImageIcon(master.getImage()), tabGroup, null);
+			tab.setToolTipText(master.getPrettyName());
+			tabGroup.addTab(tab);
+		}
+
+		add(tabGroup, c);
 
 	}
-
-
-
 }

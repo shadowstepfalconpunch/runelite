@@ -106,7 +106,6 @@ public class IconTextField extends JPanel
 
 		textField.addMouseListener(hoverEffect);
 		innerTxt.addMouseListener(hoverEffect);
-
 		clearButton = new JButton("×");
 		clearButton.setPreferredSize(new Dimension(30, 0));
 		clearButton.setFont(FontManager.getRunescapeBoldFont());
